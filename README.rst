@@ -41,5 +41,26 @@ For now it just prints the JSON response from an API call to the public endpoint
 
 .. code:: bash
 
+   fragdenstaat-client
+
+   Usage: fragdenstaat-client [OPTIONS] COMMAND [ARGS]...
+
+   Options:
+     -u, --username TEXT
+     -p, --password TEXT
+     --help               Show this message and exit.
+
+   Commands:
+     config
+     requests
+
+
+Retrieving requests
+-------------------
+
+.. code:: bash
+
    fragdenstaat-client requests
+
+
 
