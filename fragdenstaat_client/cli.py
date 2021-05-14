@@ -1,19 +1,34 @@
 import click  # documentation https://click.palletsprojects.com/en/7.x/
 import json
-from fragdenstaat_client.api import Authenticator, APIClient, Configuration
+from fragdenstaat_client.api import APIClient
 
 
+@click.group()
+@click.option("-u", "--username", default=None)
+@click.option("-p", "--password", default=None)
+@click.pass_context
+def main(ctx, username, password):
+    ctx.obj = {
+        "client": APIClient(username, password),
+        "username": username,
+        "password": password,
+    }
 
-@click.command()
-def main():
+@main.command("config")
+@click.pass_context
+def show_config(ctx):
+    username = ctx.obj["username"]
+    password = ctx.obj["password"]
+    print(json.dumps(dict(username=username, password=password), indent=4))
+
+
+@main.command("requests")
+@click.pass_context
+def froi_requests(ctx):
+    client = ctx.obj["client"]
     print("Requesting data from Frag Den Staat")
-
-    config = Configuration()
-    auth = Authenticator(config)
-    client = APIClient(auth)
 
     requests = client.retrieve_requests()
     print(json.dumps(requests, indent=4))
-
 
 
