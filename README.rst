@@ -10,4 +10,4 @@ First install python3 then install this project as a python package:
 
 .. code:: python
 
-   pip install https://github.com/jessihnm/fragdenstaat-client
+   pip install git+https://github.com/jessihnm/fragdenstaat-client@main
