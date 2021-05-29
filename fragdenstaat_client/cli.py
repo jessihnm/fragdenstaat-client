@@ -29,13 +29,22 @@ def show_config(ctx):
 
 
 @main.command("requests")
+@click.option("-m", "--max-pages", type=int, default=3392)
+@click.option("-o", "--offset-increment", type=int, default=50)
 @click.pass_context
-def froi_requests(ctx):
+def froi_requests(ctx, max_pages, offset_increment):
     client = ctx.obj["client"]
-    print("Requesting data from Frag Den Staat")
-
-    requests = client.retrieve_requests()
-    print(json.dumps(requests, indent=4))
+    offset = 0
+    for i in range(0, max_pages):
+        page = i + 1
+        print(f"Requesting data from Frag Den Staat page {page} of {max_pages}")
+        requests = client.retrieve_requests(offset)
+        dataname = f"jsonNo{offset}.json"
+        with open(dataname, "w") as fd:
+            json.dump(requests, fd, indent=4)
+            print(f"written {dataname}")
+        offset += offset_increment
+    print("finished")
 
 
 @main.command("json-to-csv")
