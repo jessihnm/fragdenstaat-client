@@ -1,7 +1,10 @@
 import requests
+import re
+import csv
 from requests.auth import HTTPBasicAuth
 
 from .base import APIRouter
+
 
 # According to the API docs (https://froide.readthedocs.io/en/latest/api/):
 #
@@ -24,7 +27,7 @@ class APIClient(object):
             self.auth = HTTPBasicAuth(username, password)
         self.http.auth = self.auth
 
-    def retrieve_requests(self):
-        url = self.routes.make_url("/api/v1/request")
+    def retrieve_requests(self, offset):
+        url = self.routes.make_url(f"/api/v1/request/?format=json&offset={offset}")
         response = self.http.get(url)
         return response.json()
