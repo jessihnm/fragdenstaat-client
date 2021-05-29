@@ -12,7 +12,7 @@ venv $(VENV):  # creates $(VENV) folder if does not exist
 	python3 -mvenv $(VENV)
 	$(VENV)/bin/pip install -U pip setuptools
 
-develop $(MAIN_CLI_PATH) $(VENV)/bin/nosetests $(VENV)/bin/python $(VENV)/bin/pip: # installs latest pip
+develop $(MAIN_CLI_PATH) $(VENV)/bin/pytest $(VENV)/bin/python $(VENV)/bin/pip: # installs latest pip
 	test -e $(VENV)/bin/pip || $(MAKE) $(VENV)
 	$(VENV)/bin/pip install -r development.txt
 	$(VENV)/bin/python setup.py develop
@@ -22,19 +22,19 @@ tests: unit functional  # runs all tests
 
 
 # Install dependencies
-dependencies: | $(VENV)/bin/nosetests
+dependencies: | $(VENV)/bin/pytest
 	$(VENV)/bin/pip install -r development.txt
 	$(VENV)/bin/python setup.py develop
 
 
 # runs unit tests
-unit: | $(VENV)/bin/nosetests  # runs only unit tests
-	$(VENV)/bin/nosetests --cover-erase tests/unit
+unit: | $(VENV)/bin/pytest  # runs only unit tests
+	$(VENV)/bin/pytest  --capture=no
 
 
 # runs functional tests
-functional:| $(VENV)/bin/nosetests  # runs functional tests
-	$(VENV)/bin/nosetests tests/functional
+functional:| $(VENV)/bin/pytest  # runs functional tests
+	$(VENV)/bin/pytest --capture=no tests/functional
 
 run: | $(VENV)/bin/python
 	@$(MAIN_CLI_PATH) --help
