@@ -1,7 +1,17 @@
 import requests
-from requests.auth import HTTPBasicAuth
+from urllib.parse import urljoin
 
-from .base import APIRouter
+
+class APIRouter(object):
+    base_url = "https://fragdenstaat.de/"
+
+    def make_url(self, path: str):
+        return urljoin(self.base_url, path)
+
+    @property
+    def token_url(self) -> str:
+        return self.make_url("/account/token")
+
 
 # According to the API docs (https://froide.readthedocs.io/en/latest/api/):
 #

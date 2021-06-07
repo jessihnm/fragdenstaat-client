@@ -4,14 +4,10 @@ from fragdenstaat_client.api import APIClient
 
 
 @click.group()
-@click.option("-u", "--username", default=None)
-@click.option("-p", "--password", default=None)
 @click.pass_context
-def main(ctx, username, password):
+def main(ctx):
     ctx.obj = {
-        "client": APIClient(username, password),
-        "username": username,
-        "password": password,
+        "client": APIClient(),
     }
 
 @main.command("config")
